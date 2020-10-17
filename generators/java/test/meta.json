@@ -1,0 +1,175 @@
+{
+  "generate_path": "",
+  "classes":[
+    {
+      "fqcn": "com.susamn.MetaEnum",
+      "type": "ENUM",
+      "values": [
+        "SUCCESS",
+        "FAILURE"
+      ]
+    },
+    {
+      "fqcn": "com.susamn.Meta",
+      "type": "CLASS",
+      "extends": "com.susamn.Parent",
+      "implements": [
+        "java.io.Serializable"
+      ],
+      "annotations": [
+        {
+          "fqcn": "com.susamn.ClassLevelAnnotation1"
+        },
+        {
+          "fqcn": "com.susamn.ClassLevelAnnotation2",
+          "data": {
+            "key1": {
+             "type": "INTEGER",
+             "value": 23
+           }
+         }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "foo",
+         "mode": "private",
+         "type": {
+           "of": "STRING"
+         },
+         "accessors": true,
+          "annotation_level": "GETTER_ANNOTATION",
+          "annotations": [
+           {
+              "fqcn": "com.susamn.Annotation1",
+              "data": {
+               "key1": {
+                 "type": "INTEGER",
+                 "value": 23
+                }
+             }
+           },
+            {
+             "fqcn": "com.susamn.Annotation2",
+              "data": {
+                "key1": {
+                 "type": "STRING",
+                  "value": "String data"
+                }
+             }
+            }
+          ]
+       },
+        {
+          "name": "foobar",
+          "mode": "private",
+         "type": {
+           "of": "STRING"
+         },
+         "accessors": true,
+          "annotations": [
+            {
+              "fqcn": "com.susamn.Annotation3"
+            },
+            {
+              "fqcn": "com.susamn.Annotation4",
+              "data": {
+               "key1": {
+                  "type": "INTEGER",
+                  "value": 23
+                }
+              }
+           }
+          ]
+       },
+        {
+          "name": "bar",
+          "mode": "private",
+         "type": {
+           "of": "LIST_STRING"
+         },
+         "accessors": true
+       },
+        {
+         "name": "far",
+         "mode": "private",
+          "type": {
+            "of":"LIST_INTEGER"
+          },
+         "accessors": true
+        },
+       {
+          "name": "boo",
+         "mode": "private",
+          "type": {
+            "of":"LIST_CLASS",
+           "fqcn": "com.susamn.Custom"
+          },
+          "accessors": true
+       },
+       {
+          "name": "doo",
+          "mode": "private",
+          "type": {
+            "of":"INTEGER"
+         },
+         "accessors": true
+       },
+        {
+          "name": "dar",
+          "mode": "private",
+         "type": {
+            "of":"FLOAT"
+         }
+       }
+     ],
+      "methods": [
+       {
+         "name": "processRequest",
+         "mode": "public",
+         "type": {
+           "of": "STRING"
+         },
+         "inputs": [
+           {
+              "type": {
+               "of": "STRING",
+               "annotations": [
+                 {
+                    "fqcn": "com.susamn.ResponseBody"
+                  }
+                ]
+              }
+            },
+            {
+             "type": {
+               "of":"LIST_CLASS",
+               "fqcn": "com.susamn.Custom2"
+              }
+           }
+         ],
+          "annotations": [
+            {
+              "fqcn": "com.susamn.Annotation11",
+             "data": {
+               "key1": {
+                  "type": "INTEGER",
+                  "value": 78.10
+               }
+              }
+            },
+            {
+              "fqcn": "com.susamn.Annotation10",
+              "data": {
+                "key1": {
+                 "type": "INTEGER",
+                 "value": 12.19
+               }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
