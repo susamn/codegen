@@ -1,121 +1,232 @@
 import unittest
 
-from generators.java.annotations import Annotation
+from generators.java import TYPE_STRING, TYPE_CLASS, TYPE_LIST_CLASS, MODE_PUBLIC, TYPE_INTEGER
 from generators.java.method import Method, getter, setter
-from generators.java.typs import MODE_PRIVATE
 
 
 class TestMethods(unittest.TestCase):
 
     def test_simple_method(self):
-        m = Method("hello", "String", mode=MODE_PRIVATE)
+        doc = {
+            "name": "syncRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+        }
+        m = Method(doc)
         g = m.generate(4)
+        print(m.get_imports())
         print(g)
 
-
     def test_arg_method(self):
-        m = Method("hello", "String")
-        m.add_input("ArrayList<String>")
-        m.add_input("String")
+        doc = {
+            "name": "syncRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": {
+                        "of": TYPE_STRING
+                    }
+                }
+            ]
+        }
+        m = Method(doc)
         g = m.generate(4)
+        print(m.get_imports())
         print(g)
 
     def test_body_method(self):
-        m = Method("hello", "String")
-        m.add_body("this.val = val;")
+        doc = {
+            "name": "deleteRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_CLASS,
+                "fqcn": "org.springframework.web.mvc.HttpEntity"
+            },
+            "inputs": [
+                {
+                    "type": {
+                        "of": TYPE_STRING
+                    }
+                }
+            ],
+            "body": {
+                "form": ["Map<Integer,RiskAssessment> map = new HashMap<>();", "map.put(1, new RiskAssessment());"],
+                "imports": ["java.util.Map", "java.util.HashMap", "com.susamn.RiskAssessment"]
+            }
+        }
+        m = Method(doc)
         g = m.generate(4)
+        print(m.get_imports())
         print(g)
 
-
     def test_annotated_method(self):
-        m = Method("hello", "String")
-        annotation=Annotation("com.susamn.Foo")
-        annotation.add_data({
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        m.apply_annotation(annotation)
+        doc = {
+            "name": "processRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "annotations": [
+                {
+                    "fqcn": "com.susamn.Annotation11",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 78.10
+                        }
+                    }
+                }
+            ]
+        }
+        m = Method(doc)
         g = m.generate(4)
+        print(m.get_imports())
         print(g)
 
     def test_multiple_annotated_method(self):
-        m = Method("hello", "String")
-        annotation1=Annotation("com.susamn.Foo")
-        annotation1.add_data(data={
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        annotation2=Annotation("com.susamn.Bar")
-        annotation2.add_data(data={
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        m.apply_annotation(annotation1)
-        m.apply_annotation(annotation2)
+        doc = {
+            "name": "processRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "annotations": [
+                {
+                    "fqcn": "com.susamn.Annotation11",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 78.10
+                        }
+                    }
+                },
+                {
+                    "fqcn": "com.susamn.Annotation10",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 12.19
+                        }
+                    }
+                }
+            ]
+        }
+        m = Method(doc)
+        print(m.get_imports())
         g = m.generate(4)
         print(g)
 
-
     def test_arg_method_with_annotation(self):
-        m = Method("hello", "String")
-        m.add_input("ArrayList<String>")
-        m.add_input("String")
-        annotation1=Annotation("com.susamn.Foo")
-        annotation1.add_data(data={
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        annotation2=Annotation("com.susamn.Bar")
-        annotation2.add_data({
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        m.apply_annotation(annotation1)
-        m.apply_annotation(annotation2)
+        doc = {
+            "name": "processRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "inputs": [
+                {
+                    "name": "body",
+                    "type": {
+                        "of": TYPE_STRING
+                    }
+                }
+            ],
+            "annotations": [
+                {
+                    "fqcn": "com.susamn.Annotation11",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 78.10
+                        }
+                    }
+                }
+            ]
+        }
+        m = Method(doc)
+        print(m.get_imports())
         g = m.generate(4)
         print(g)
 
     def test_arg_method_with_annotation_and_body(self):
-        m = Method("hello", "String")
-        m.add_input("ArrayList<String>")
-        m.add_input("String")
-        annotation1=Annotation("com.susamn.Foo")
-        annotation1.add_data({
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
+        doc = {
+            "name": "processRequest",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "inputs": [
+                {
+                    "name": "body",
+                    "type": {
+                        "of": TYPE_STRING
+                    }
+                }
+            ],
+            "annotations": [
+                {
+                    "fqcn": "com.susamn.Annotation11",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 78.10
+                        }
+                    }
+                }
+            ],
+            "body": {
+                "form": ["Map<Integer,RiskAssessment> map = new HashMap<>();", "map.put(1, new RiskAssessment());"],
+                "imports": ["java.util.Map", "java.util.HashMap", "com.susamn.RiskAssessment"]
             }
-        })
-        annotation2=Annotation("com.susamn.Bar")
-        annotation2.add_data({
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        m.apply_annotation(annotation1)
-        m.apply_annotation(annotation2)
-        m.add_body("this.val = val;")
+        }
+        m = Method(doc)
+        print(m.get_imports())
         g = m.generate(4)
         print(g)
 
-    def test_getter(self):
-        m = getter("foo", "String")
-        print(m.generate())
+    def test_getter_string(self):
+        attribute_type_doc = {
+            "of": TYPE_STRING
+        }
+        m = getter("employeeId", attribute_type_doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
 
-    def test_setter(self):
-        m = setter("foo", "String")
-        print(m.generate())
+    def test_getter_class(self):
+        attribute_type_doc = {
+            "of": TYPE_CLASS,
+            "fqcn":"com.susamn.Entity"
+        }
+        m = getter("name", attribute_type_doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+
+    def test_getter_list_class(self):
+        attribute_type_doc = {
+            "of": TYPE_LIST_CLASS,
+            "fqcn":"com.susamn.Entity"
+        }
+        m = getter("name", attribute_type_doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+
+    def test_setter_string(self):
+        attribute_type_doc = {
+            "of": TYPE_STRING
+        }
+        m = setter("employeeId", attribute_type_doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
 
 
 if __name__ == '__main__':

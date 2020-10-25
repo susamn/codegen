@@ -1,11 +1,11 @@
-from generators.java import Generator, class_name_from_package, package_name_from_package
+from generators.java import class_name_from_package, package_name_from_package, Generator
 from generators.java.annotations import parse_annotations
 from generators.java.attribute import Attribute
 from generators.java.method import Method
-from generators.java.typs import handle_generic_types
+from generators.java.typs import handle_generic_types, process_type, MODE_PUBLIC
 
 
-class Klass(Generator):
+class Interface(Generator):
     def __init__(self, document, folder=None):
         fqcn = document.get("fqcn")
         if fqcn:
@@ -18,38 +18,23 @@ class Klass(Generator):
         self.methods = []
         self.generate_folder = folder
 
-        # Process inheritance
+        # Process class level implementations
         extends = document.get("extends")
         self.extends = None
+        if extends and not type(extends) == list:
+            raise ValueError(f"Please provide implementation data properly for interface {fqcn}")
         if extends:
-            try:
-                extends_class_name = extends.get("fqcn")
-                extends_generic_types = extends.get("generic_types")
-                if not extends_class_name:
-                    raise ValueError("The extends classname is not provided")
-                extends_fqcn, imports = handle_generic_types(extends_class_name, extends_generic_types)
-                self.extends = extends_fqcn
-                self.imports.update(imports)
-            except ValueError:
-                raise ValueError("Please provide inheritance class and its fqcn")
+            if len(extends) > 0:
+                all_extended_interfaces = []
+                for e in extends:
+                    extends_fqcn_class_name = e.get("fqcn")
+                    extends_generic_types = e.get("generic_types")
+                    extends_fqcn, imports = handle_generic_types(extends_fqcn_class_name,
+                                                                 extends_generic_types)
 
-        # Process class level implementations
-        implements = document.get("implements")
-        self.implements = None
-        if implements and not type(implements) == list:
-            raise ValueError("Please provide implementation data properly")
-        if implements:
-            if len(implements) > 0:
-                all_implementation_classes = []
-                for i in implements:
-                    implements_fqcn_class_name = i.get("fqcn")
-                    implements_generic_types = i.get("generic_types")
-                    implements_fqcn, imports = handle_generic_types(implements_fqcn_class_name,
-                                                                    implements_generic_types)
-
-                    all_implementation_classes.append(implements_fqcn)
+                    all_extended_interfaces.append(extends_fqcn)
                     self.imports.update(imports)
-                self.implements = ", ".join(all_implementation_classes)
+                self.extends = ", ".join(all_extended_interfaces)
 
         # Process class level annotations
         annotations = document.get("annotations")
@@ -64,6 +49,9 @@ class Klass(Generator):
         if attributes:
             for a_doc in attributes:
                 attribute = Attribute(a_doc)
+                attribute.make_final()
+                attribute.make_static()
+                attribute.make_public()
                 self.add_attribute(attribute)
 
         # Methods
@@ -71,6 +59,7 @@ class Klass(Generator):
         if methods:
             for m_doc in methods:
                 method = Method(m_doc)
+                method.make_abstract()
                 self.add_method(method)
 
     def add_method(self, method):
@@ -86,11 +75,10 @@ class Klass(Generator):
             self.methods.extend(attribute.get_methods())
 
     def generate(self, indentation=4):
-        template = f"public class {self.class_name}"
+        template = f"public interface {self.class_name}"
         if self.extends:
             template = f"{template} extends {self.extends}"
-        if self.implements:
-            template = f"{template} implements {self.implements}"
+
         generated = ""
         generated += f'package {self.package};'
         generated += "\n\n"
@@ -117,6 +105,6 @@ class Klass(Generator):
             with open("/".join([self.generate_folder, f'{self.class_name}.java']), "w") as fh:
                 fh.write(generated)
                 fh.flush()
-            print(f'Written java class {self.generate_folder}/{self.class_name}.java')
+            print(f'Written java interface {self.generate_folder}/{self.class_name}.java')
         else:
             print(generated)

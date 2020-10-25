@@ -5,11 +5,18 @@ from generators.java.enum import Enum
 
 class TestEnum(unittest.TestCase):
     def test_enum(self):
-        v = Enum("com.susamn.SusamEnum")
-        v.add_enum("A")
-        v.add_enum("B")
-        v.add_enum("C")
-        v.generate(4)
+        doc = {
+            "fqcn": "com.susamn.MetaEnum",
+            "type": "ENUM",
+            "values": [
+                "SUCCESS",
+                "FAILURE"
+            ]
+        }
+
+        m = Enum(doc)
+        g = m.generate(4)
+        print(g)
 
 
 if __name__ == '__main__':

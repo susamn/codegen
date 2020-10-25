@@ -1,21 +1,26 @@
-from generators.java import Generator, padding
-from generators.java.typs import *
+from generators.java import *
 
 
 class Annotation(Generator):
-    def __init__(self, fqcn):
-        self.fqcn = fqcn
+    def __init__(self, document):
+        self.fqcn = document.get("fqcn")
         self.data = {}
 
-    def get_fqcn(self):
-        return self.fqcn
+        data = document.get("data")
+        if not self.fqcn:
+            raise ValueError("If you are providing annotation, it must have package and data")
 
-    def add_data(self, data):
-        if type(data) is not dict:
+        # Add self fqcn to the import list
+        self.imports = [self.fqcn]
+
+        if data and type(data) is not dict:
             raise ValueError("The data to an annotation can only be a dict, got : ", type(data))
-        if len(data) > 0:
+        if data and len(data) > 0:
             parsed_data = self.__parse_data(data)
             self.data.update(parsed_data)
+
+    def get_imports(self):
+        return self.imports
 
     def generate(self, indentation=0):
         if len(self.data) == 0:
@@ -26,47 +31,73 @@ class Annotation(Generator):
                 parts.append(f'{k} = {v}')
             return f'{padding(indentation)}@{class_name_from_package(self.fqcn)}(' + ", ".join(parts) + ')'
 
-    @staticmethod
-    def __parse_data(data):
+    def __parse_data(self, data):
         result_data = {}
         for k, v in data.items():
-            value_type = v["type"]
-            value_data = v["value"]
-            parsed_data = JAVA_ANNOTATION_MAPPER[value_type](value_data)
-            result_data[k] = parsed_data
+            value_type = v.get("type")
+            value_data = v.get("value")
+            imports = v.get("imports")
+            if value_type and value_data:
+                parsed_data, nested_imports = JAVA_ANNOTATION_MAPPER[value_type](value_data)
+                result_data[k] = parsed_data
+                # Handle imports
+                if imports and len(imports) > 0:
+                    self.imports.extend(imports)
+                if nested_imports and len(nested_imports) > 0:
+                    self.imports.extend(nested_imports)
+            else:
+                raise ValueError(f'The annotation {self.fqcn} is provided with wrong data or type')
         return result_data
 
 
 JAVA_ANNOTATION_MAPPER = {
-    TYPE_STRING: lambda x: f'"{x}"',
-    TYPE_EVALUATED: lambda x: x,
-    TYPE_CLASS: lambda x: f'{class_name_from_package(x)}.class',
-    TYPE_INTEGER: lambda x: x,
-    TYPE_FLOAT: lambda x: x,
-    TYPE_BOOLEAN: lambda x: x,
-    TYPE_ANNOTATION: lambda x: create_annotation_from_document(x).generate(),
-    TYPE_LIST_STRING: lambda x: f'{{{", ".join([wrap_with_quotes(a) for a in x])}}}',
-    TYPE_LIST_EVALUATED: lambda x: f'{{{", ".join([a for a in x])}}}',
-    TYPE_LIST_CLASS: lambda x: f'{{{", ".join([f"{class_name_from_package(a)}.class" for a in x])}}}',
-    TYPE_LIST_INTEGER: lambda x: f'{{{", ".join([str(a) for a in x])}}}',
-    TYPE_LIST_FLOAT: lambda x: f'{{{", ".join([str(a) for a in x])}}}',
-    TYPE_LIST_BOOLEAN: lambda x: f'{{{", ".join([str(a) for a in x])}}}',
-    TYPE_LIST_ANNOTATION: lambda x: f'{{{", ".join([create_annotation_from_document(a).generate() for a in x])}}}'
+    TYPE_STRING: lambda x: (f'"{x}"', None),
+    TYPE_EVALUATED: lambda x: (x, None),
+    TYPE_CLASS: lambda x: (f'{class_name_from_package(x)}.class', None),
+    TYPE_INTEGER: lambda x: (x, None),
+    TYPE_FLOAT: lambda x: (x, None),
+    TYPE_BOOLEAN: lambda x: (x, None),
+    TYPE_ANNOTATION: lambda x: create_annotation_with_imports(x),
+    TYPE_LIST_STRING: lambda x: (f'{{{", ".join([wrap_with_quotes(a) for a in x])}}}', None),
+    TYPE_LIST_EVALUATED: lambda x: (f'{{{", ".join([a for a in x])}}}', None),
+    TYPE_LIST_CLASS: lambda x: (f'{{{", ".join([f"{class_name_from_package(a)}.class" for a in x])}}}', None),
+    TYPE_LIST_INTEGER: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
+    TYPE_LIST_FLOAT: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
+    TYPE_LIST_BOOLEAN: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
+    TYPE_LIST_ANNOTATION: lambda x: process_list_annotations(x)
 }
+
+
+def process_list_annotations(annotations):
+    imports = []
+    parsed_annotations = []
+    for annotation in annotations:
+        a, i = create_annotation_with_imports(annotation)
+        if not a:
+            raise ValueError(f'The annotation {annotation} could not be parsed')
+        parsed_annotations.append(a)
+        if i and len(i) > 0:
+            imports.extend(i)
+    return f'{{{", ".join([a for a in parsed_annotations])}}}', imports
 
 
 def wrap_with_quotes(val):
     return f'"{val}"'
 
 
+def create_annotation_with_imports(doc):
+    a = create_annotation_from_document(doc)
+    return a.generate(), a.get_imports()
+
+
 def create_annotation_from_document(doc):
-    if not type(doc) == dict:
-        raise ValueError("The document provided to create an annotation is not a dict")
-    fqcn = doc.get("fqcn")
-    data = doc.get("data")
-    if not fqcn:
-        raise ValueError("The document provided to create an annotation does not have fqcn")
-    a = Annotation(fqcn)
-    if data:
-        a.add_data(data)
+    a = Annotation(doc)
     return a
+
+
+def parse_annotations(annotations=None):
+    result = list()
+    if annotations and len(annotations) > 0:
+        for annotation_doc in annotations:
+            result.append(create_annotation_from_document(annotation_doc))
+    return result

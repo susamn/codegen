@@ -1,31 +1,123 @@
 import unittest
 
-from generators.java.annotations import Annotation
+from generators.java import TYPE_STRING, TYPE_INTEGER
 from generators.java.attribute import Attribute
-from generators.java.typs import MODE_PUBLIC
 
 
-class TestMethods(unittest.TestCase):
+class TestAttrributes(unittest.TestCase):
 
     def test_simple_attribute(self):
-        m = Attribute("hello", "String", mode=MODE_PUBLIC)
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "type": {
+                "of": TYPE_STRING
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
         g = m.generate(4)
         print(g)
 
+    def test_simple_attribute_with_accessors(self):
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "accessors": True,
+            "type": {
+                "of": TYPE_STRING
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+        print(m.get_methods())
 
     def test_annotated_attribute(self):
-        annotation1=Annotation("com.susamn.Foo")
-        annotation1.add_data({
-            "key1": {
-                "type": "CLASS",
-                "value": "com.susamn.SomeClass"
-            }
-        })
-        m = Attribute("hello", "String")
-        m.apply_annotation(annotation1)
+        doc = {
+            "name": "foo",
+            "mode": "private",
+            "type": {
+                "of": TYPE_STRING
+            },
+            "annotations": [
+                {
+                    "fqcn": "com.susamn.Annotation1",
+                    "data": {
+                        "key1": {
+                            "type": TYPE_INTEGER,
+                            "value": 23
+                        }
+                    }
+                }
+            ]
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
         g = m.generate(4)
         print(g)
 
+    def test_static_attribute(self):
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "is_static": True,
+            "type": {
+                "of": TYPE_STRING
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+
+    def test_final_attribute(self):
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "is_final": True,
+            "type": {
+                "of": TYPE_STRING
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+
+    def test_static_final_attribute(self):
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "is_static": True,
+            "is_final": True,
+            "type": {
+                "of": TYPE_STRING
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
+
+    def test_static_final_initialized_attribute(self):
+        doc = {
+            "name": "logger",
+            "mode": "public",
+            "type": {
+                "of": "CLASS",
+                "fqcn": "org.slf4j.api.Logger"
+            },
+            "initialized_form": {
+                "form": "LoggerFactory.getLogger(RiskAssessmentController.class)",
+                "imports": ["org.apache.logger.api.LoggerFactory","com.susamn.RiskAssessmentController"]
+            }
+        }
+        m = Attribute(doc)
+        print(m.get_imports())
+        g = m.generate(4)
+        print(g)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,15 @@
+{
+  "generate_path": "",
+  "classes":[
+    {
+      "fqcn": "com.susamn.MetaEnum",
+      "type": "ENUM",
+      "generic_types": [],
+      "values": [
+        "SUCCESS",
+        "FAILURE"
+      ]
+    }
+
+  ]
+}

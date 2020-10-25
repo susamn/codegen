@@ -1,61 +1,77 @@
-from generators.java import Generator, padding, class_name_from_package, package_name_from_package
+from generators.java import Generator, padding, class_name_from_package, package_name_from_package, TYPE_CLASS
+from generators.java.annotations import parse_annotations
 from generators.java.method import Method
 from generators.java.typs import MODE_PRIVATE, MODE_PUBLIC, TYPE_STRING, process_type
 
 
 class Enum(Generator):
     # TODO Need to support initialization
-    def __init__(self, fqcn, mode=None, implements=None, generate_folder=None):
+    def __init__(self, document, folder=None):
+        fqcn = document.get("fqcn")
         if fqcn:
             self.class_name = class_name_from_package(fqcn)
             self.package = package_name_from_package(fqcn)
-        self.mode = mode or MODE_PRIVATE
-        self.annotations = []
-        self.enums = []
+        else:
+            raise ValueError("A class must have a fqcn")
         self.imports = set()
+        self.attributes = []
+        self.methods = []
+        self.generate_folder = folder
+        self.enums = []
 
-        # Process class level implementations
-        self.implements = None
-        if implements and not type(implements) == list:
-            raise ValueError("Please provide implementation data properly")
-        if implements:
-            if len(implements) > 0:
-                all_implementation_classes = []
-                for i in implements:
-                    try:
-                        all_implementation_classes.append(class_name_from_package(i))
-                        self.imports.add(i)
-                    except ValueError:
-                        raise ValueError("Please provide implementation class and its fqcn")
-                self.implements = ",".join(all_implementation_classes)
+        enums = document.get("values")
+        if not enums or not type(enums) == list or len(enums) == 0:
+            raise ValueError(f"Please provide enum values to the Enum {self.class_name}")
+        self.enums.extend(enums)
 
-        self.generate_folder = generate_folder
-
-    def add_enum(self, value):
-        if value:
-            self.enums.append(value)
-
-    def apply_annotation(self, annotation):
-        if annotation:
-            self.annotations.append(annotation)
-
-    def handle_inheritance_and_implementation(self):
-        response = f"public enum {self.class_name}"
-        if self.implements:
-            response = f"{response} implements {self.implements}"
-        return response
+        # Process class level annotations
+        annotations = document.get("annotations")
+        self.annotations = parse_annotations(annotations)
+        if self.annotations and len(self.annotations) > 0:
+            for a in self.annotations:
+                if a and a.get_imports() and len(a.get_imports()) > 0:
+                    self.imports.update(a.get_imports())
 
     def generate(self, indentation=4):
+        template = f"public enum {self.class_name}"
 
         typ, ims = process_type(TYPE_STRING)
         self.imports.update(ims)
 
-        method_from_value = Method("fromValue", self.class_name, mode=MODE_PUBLIC, is_static=True)
-        method_from_value.add_named_input(typ, "value")
-        method_from_value.add_body("return valueOf(value);")
+        method_from_value = {
+            "name": "fromValue",
+            "mode": MODE_PUBLIC,
+            "is_static": True,
+            "type": {
+                "of": TYPE_CLASS,
+                "fqcn": self.class_name
+            },
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": {
+                        "of": TYPE_STRING
+                    }
+                }
+            ],
+            "body": {
+                "form": ["return valueOf(value);"]
+            }
+        }
 
-        method_getter = Method(f'getValue', typ, mode=MODE_PUBLIC)
-        method_getter.add_body(f'return this.toString();')
+        method_getter = {
+            "name": "getValue",
+            "mode": MODE_PUBLIC,
+            "type": {
+                "of": TYPE_STRING
+            },
+            "body": {
+                "form": ["return this.toString();"]
+            }
+        }
+
+        method_from_value = Method(method_from_value)
+        method_getter = Method(method_getter)
 
         generated = ""
         generated += f'package {self.package};'
@@ -64,7 +80,7 @@ class Enum(Generator):
         for i in self.imports:
             generated += f'import {i};\n'
         generated += "\n\n"
-        generated += f"\n{self.handle_inheritance_and_implementation()} {{"
+        generated += f"\n{template} {{"
         generated += "\n"
         self.enums = sorted(self.enums)
 
@@ -87,5 +103,3 @@ class Enum(Generator):
             print(f'Written java enum {self.generate_folder}/{self.class_name}.java')
         else:
             print(generated)
-
-

@@ -4,17 +4,44 @@
     {
       "fqcn": "com.susamn.MetaEnum",
       "type": "ENUM",
+      "generic_types": [],
       "values": [
         "SUCCESS",
         "FAILURE"
       ]
     },
     {
+      "fqcn": "com.susamn.MetaInterface",
+      "type": "INTERFACE",
+      "generic_types": ["java.lang.Integer"],
+      "extends": [
+        {
+          "fqcn": "java.io.Serializable"
+        },
+        {
+          "fqcn": "org.springframework.data.jpa.repository.JpaRepository",
+          "generic_types": ["com.susamn.Root","java.lang.String"]
+        }
+
+      ]
+    },
+    {
       "fqcn": "com.susamn.Meta",
       "type": "CLASS",
-      "extends": "com.susamn.Parent",
+      "extends": {
+        "fqcn": "com.susamn.Parent",
+        "generic_types": ["java.lang.Integer"]
+      },
       "implements": [
-        "java.io.Serializable"
+        {
+          "fqcn": "java.io.Serializable",
+          "generic_types": ["java.lang.Integer"]
+        },
+        {
+          "fqcn": "org.apache.Logger",
+          "generic_types": ["com.susamn.Root","java.lang.String"]
+        }
+
       ],
       "annotations": [
         {
@@ -32,12 +59,29 @@
       ],
       "attributes": [
         {
+          "name": "logger",
+          "mode": "public",
+          "type": {
+            "of": "CLASS",
+            "fqcn": "org.slf4j.api.Logger"
+          },
+          "accessors": true,
+          "initialized_form": {
+            "form": "LoggerFactory.getLogger(RiskAssessmentController.class)",
+            "imports": ["org.apache.logger.api.LoggerFactory","com.susamn.RiskAssessmentController"]
+          }
+        },
+        {
           "name": "foo",
-         "mode": "private",
-         "type": {
+          "mode": "private",
+          "type": {
            "of": "STRING"
-         },
-         "accessors": true,
+          },
+          "accessors": true,
+          "initialized_form": {
+            "form": "\"Foo_Value\"",
+            "imports": []
+          },
           "annotation_level": "GETTER_ANNOTATION",
           "annotations": [
            {
@@ -132,6 +176,7 @@
          },
          "inputs": [
            {
+              "name": "body",
               "type": {
                "of": "STRING",
                "annotations": [
@@ -142,10 +187,18 @@
               }
             },
             {
+              "name": "clazz",
              "type": {
                "of":"LIST_CLASS",
                "fqcn": "com.susamn.Custom2"
               }
+           },
+           {
+             "type": {
+               "of": "CLASS",
+               "fqcn": "org.springframework.web.mvc.HttpEntity",
+               "generic_types": ["java.lang.String"]
+             }
            }
          ],
           "annotations": [
@@ -168,6 +221,53 @@
               }
             }
           ]
+        },
+        {
+          "name": "syncRequest",
+          "mode": "public",
+          "type": {
+            "of": "CLASS",
+            "fqcn": "org.springframework.web.mvc.HttpEntity",
+            "generic_types": ["GENERIC"]
+          },
+          "inputs": [
+            {
+              "name": "value",
+              "type": {
+                "of": "STRING",
+                "annotations": [
+                  {
+                    "fqcn": "com.susamn.ResponseBody"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "deleteRequest",
+          "mode": "public",
+          "type": {
+            "of": "CLASS",
+            "fqcn": "org.springframework.web.mvc.HttpEntity",
+            "generic_types": ["java.lang.Boolean"]
+          },
+          "inputs": [
+            {
+              "type": {
+                "of": "STRING",
+                "annotations": [
+                  {
+                    "fqcn": "com.susamn.ResponseBody"
+                  }
+                ]
+              }
+            }
+          ],
+          "body": {
+            "form": ["Map<Integer,RiskAssessment> map = new HashMap<>();", "map.put(1, new RiskAssessment());"],
+            "imports": ["java.util.Map","java.util.HashMap","com.susamn.RiskAssessment"]
+          }
         }
       ]
     }
