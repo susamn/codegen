@@ -37,7 +37,7 @@ class Annotation(Generator):
             value_type = v.get("type")
             value_data = v.get("value")
             imports = v.get("imports")
-            if value_type and value_data:
+            if value_type:
                 parsed_data, nested_imports = JAVA_ANNOTATION_MAPPER[value_type](value_data)
                 result_data[k] = parsed_data
                 # Handle imports
@@ -46,7 +46,7 @@ class Annotation(Generator):
                 if nested_imports and len(nested_imports) > 0:
                     self.imports.extend(nested_imports)
             else:
-                raise ValueError(f'The annotation {self.fqcn} is provided with wrong data or type')
+                raise ValueError(f'The annotation {self.fqcn} is provided with wrong type')
         return result_data
 
 

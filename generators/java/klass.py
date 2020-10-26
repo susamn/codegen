@@ -1,6 +1,7 @@
 from generators.java import Generator, class_name_from_package, package_name_from_package
 from generators.java.annotations import parse_annotations
 from generators.java.attribute import Attribute
+from generators.java.constructor import Constructor
 from generators.java.method import Method
 from generators.java.typs import handle_generic_types
 
@@ -16,6 +17,7 @@ class Klass(Generator):
         self.imports = set()
         self.attributes = []
         self.methods = []
+        self.constructors = []
         self.generate_folder = folder
 
         # Process inheritance
@@ -66,6 +68,16 @@ class Klass(Generator):
                 attribute = Attribute(a_doc)
                 self.add_attribute(attribute)
 
+        # Constructor
+        constructors_info = document.get("constructors")
+        if constructors_info and len(constructors_info) > 0:
+            for cons in constructors_info:
+                constructor = Constructor(self.class_name, cons, self.attributes)
+                self.constructors.append(constructor)
+                imports = constructor.get_imports()
+                if imports and len(imports) > 0:
+                    self.imports.update(imports)
+
         # Methods
         methods = document.get("methods")
         if methods:
@@ -102,11 +114,21 @@ class Klass(Generator):
             generated += "\n".join([x.generate() for x in self.annotations])
         generated += f"\n{template} {{"
         generated += "\n\n"
+
+        # Attributes
         self.attributes = sorted(self.attributes)
         for att in self.attributes:
             generated += att.generate(indentation=indentation)
             generated += "\n"
         generated += "\n"
+
+        # Constructors
+        for cons in self.constructors:
+            generated += cons.generate(indentation=indentation)
+            generated += "\n"
+        generated += "\n"
+
+        # Methods
         for meth in self.methods:
             generated += meth.generate(indentation=indentation)
             generated += "\n"

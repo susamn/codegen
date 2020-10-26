@@ -167,6 +167,16 @@
          }
        }
      ],
+      "constructors": [
+        {
+          "type": "ALL",
+          "mode": "public"
+        },
+        {
+          "type": "EMPTY",
+          "mode": "public"
+        }
+      ],
       "methods": [
        {
          "name": "processRequest",

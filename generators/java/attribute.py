@@ -74,6 +74,12 @@ class Attribute(Generator):
     def make_public(self):
         self.mode = MODE_PUBLIC
 
+    def get_type(self):
+        return self.typ
+
+    def get_name(self):
+        return self.name
+
     def __gt__(self, other):
         if not type(other) == Attribute:
             raise ValueError(f"{other} is not a type that cam be compared to an Attribute")
