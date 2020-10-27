@@ -1,4 +1,4 @@
-from generators.java import Generator, padding, ANNOTATION_LEVEL_ATTRIBUTE, MODE_PUBLIC, CONSTRUCTOR_EMPTY, \
+from lance.generators.java import Generator, padding, \
     CONSTRUCTOR_ALL, CONSTRUCTOR_SELECTED, MODE_PRIVATE
 
 

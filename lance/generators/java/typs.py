@@ -1,5 +1,5 @@
-from generators.java import *
-from generators.java.annotations import parse_annotations
+from lance.generators.java import *
+from lance.generators.java.annotations import parse_annotations
 
 
 def process_type(typ, fqcn=None, annotations=None, generic_types=None):

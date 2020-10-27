@@ -1,6 +1,6 @@
 import unittest
 
-from generators.java.schema_reader import engage
+from lance.generators.java.schema_reader import engage
 
 
 class TestSchemaReader(unittest.TestCase):

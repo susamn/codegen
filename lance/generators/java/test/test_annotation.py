@@ -1,7 +1,7 @@
 import unittest
 
-from generators.java import TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING, TYPE_EVALUATED
-from generators.java.annotations import Annotation
+from lance.generators.java import TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING, TYPE_EVALUATED
+from lance.generators.java.annotations import Annotation
 
 
 class TestAnnotations(unittest.TestCase):

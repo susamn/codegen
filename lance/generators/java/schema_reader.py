@@ -1,9 +1,9 @@
 import json
 
-from generators.java.enum import Enum
-from generators.java.interface import Interface
-from generators.java.klass import Klass
-from generators.java.typs import  TYPE_CLASS, TYPE_ENUM, TYPE_INTERFACE
+from lance.generators.java.enum import Enum
+from lance.generators.java.interface import Interface
+from lance.generators.java.klass import Klass
+from lance.generators.java.typs import TYPE_CLASS, TYPE_ENUM, TYPE_INTERFACE
 
 
 def engage(file=None, data=None):
@@ -38,4 +38,3 @@ def engage(file=None, data=None):
 
     else:
         raise ValueError("Please check your provided data")
-

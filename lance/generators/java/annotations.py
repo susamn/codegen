@@ -1,4 +1,4 @@
-from generators.java import *
+from lance.generators.java import *
 
 
 class Annotation(Generator):

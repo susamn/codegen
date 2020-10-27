@@ -1,6 +1,6 @@
 import unittest
 
-from generators.java.enum import Enum
+from lance.generators.java.enum import Enum
 
 
 class TestEnum(unittest.TestCase):

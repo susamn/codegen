@@ -1,7 +1,7 @@
-from generators.java import Generator, padding, class_name_from_package, package_name_from_package, TYPE_CLASS
-from generators.java.annotations import parse_annotations
-from generators.java.method import Method
-from generators.java.typs import MODE_PRIVATE, MODE_PUBLIC, TYPE_STRING, process_type
+from lance.generators.java import Generator, padding, class_name_from_package, package_name_from_package, TYPE_CLASS
+from lance.generators.java.annotations import parse_annotations
+from lance.generators.java.method import Method
+from lance.generators.java.typs import  MODE_PUBLIC, TYPE_STRING, process_type
 
 
 class Enum(Generator):

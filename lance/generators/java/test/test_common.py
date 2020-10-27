@@ -1,7 +1,7 @@
 import unittest
 
-from generators.java import class_name_from_package
-from generators.java.typs import process_type, TYPE_STRING, TYPE_LIST_STRING
+from lance.generators.java import class_name_from_package
+from lance.generators.java.typs import process_type, TYPE_STRING, TYPE_LIST_STRING
 
 
 class MyTestCase(unittest.TestCase):

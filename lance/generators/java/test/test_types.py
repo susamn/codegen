@@ -1,6 +1,6 @@
 import unittest
 
-from generators.java.typs import *
+from lance.generators.java.typs import *
 
 
 class TestTypes(unittest.TestCase):

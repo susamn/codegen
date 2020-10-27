@@ -1,7 +1,7 @@
 import unittest
 
-from generators.java import TYPE_STRING, TYPE_CLASS, TYPE_LIST_CLASS, MODE_PUBLIC, TYPE_INTEGER
-from generators.java.method import Method, getter, setter
+from lance.generators.java import TYPE_STRING, TYPE_CLASS, TYPE_LIST_CLASS, MODE_PUBLIC, TYPE_INTEGER
+from lance.generators.java.method import Method, getter, setter
 
 
 class TestMethods(unittest.TestCase):

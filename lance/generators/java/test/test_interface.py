@@ -1,5 +1,5 @@
 import unittest
-from generators.java.interface import Interface
+from lance.generators.java.interface import Interface
 
 
 class TestInterface(unittest.TestCase):

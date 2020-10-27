@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
     setuptools.setup(
         name="lance",
-        version="0.0.1",
+        version="0.1.1",
         author="Supratim Samanta",
         author_email="tech.supratim.samanta@gmail.com",
         description="A helper package to generate code from declarative json",
@@ -15,7 +15,7 @@ with open("README.md", "r") as fh:
         packages=setuptools.find_packages(),
         classifiers=[
             "Programming Language :: Python :: 3",
-            "License :: MIT",
+            "License :: OSI Approved :: MIT License",
             "Operating System :: OS Independent",
         ],
         python_requires='>=3.6',

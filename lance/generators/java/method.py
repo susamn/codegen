@@ -1,6 +1,6 @@
-from generators.java import Generator, to_camel_case, padding
-from generators.java.annotations import parse_annotations
-from generators.java.typs import MODE_PUBLIC, TYPE_VOID, MODE_PRIVATE, obtain_type
+from lance.generators.java import Generator, to_camel_case, padding
+from lance.generators.java.annotations import parse_annotations
+from lance.generators.java.typs import MODE_PUBLIC, TYPE_VOID, MODE_PRIVATE, obtain_type
 
 
 class Method(Generator):

@@ -1,7 +1,7 @@
 import unittest
 
-from generators.java import TYPE_STRING, TYPE_INTEGER
-from generators.java.attribute import Attribute
+from lance.generators.java import TYPE_STRING, TYPE_INTEGER
+from lance.generators.java.attribute import Attribute
 
 
 class TestAttrributes(unittest.TestCase):

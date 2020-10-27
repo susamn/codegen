@@ -1,8 +1,8 @@
 import unittest
 
-from generators.java import TYPE_CLASS, TYPE_INTEGER, TYPE_STRING, TYPE_LIST_CLASS, CONSTRUCTOR_ALL, MODE_PUBLIC, \
+from lance.generators.java import TYPE_CLASS, TYPE_INTEGER, TYPE_STRING, TYPE_LIST_CLASS, CONSTRUCTOR_ALL, MODE_PUBLIC, \
     CONSTRUCTOR_EMPTY, CONSTRUCTOR_SELECTED
-from generators.java.klass import Klass
+from lance.generators.java.klass import Klass
 
 
 class MyTestCase(unittest.TestCase):
