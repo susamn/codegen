@@ -1,12 +1,12 @@
-# codegen
+# lance
 
 
 # Usage
-Let's see how we can generate code by using codegen
+Let's see how we can generate code by using lance
 
 ## Java
 ### Class Generation
-Here is a json file which is fed to codegen library to generate java code
+Here is a json file which is fed to lance library to generate java code
 ``` json
  {
    "fqcn": "com.susamn.MetaClass",
