@@ -5,7 +5,7 @@ from lance.generators.java import TYPE_CLASS, TYPE_INTEGER, TYPE_STRING, TYPE_LI
 from lance.generators.java.klass import Klass
 
 
-class MyTestCase(unittest.TestCase):
+class TestClass(unittest.TestCase):
     def test_simple_class(self):
         doc = {
             "fqcn": "com.susamn.MetaEnum",

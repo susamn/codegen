@@ -1,5 +1,4 @@
 {
-  "generate_path": "/Users/ssaman002c/data/argo",
   "classes":[
     {
       "fqcn": "com.susamn.MetaEnum",
@@ -51,7 +50,7 @@
           "fqcn": "com.susamn.ClassLevelAnnotation2",
           "data": {
             "key1": {
-             "type": "INTEGER",
+             "type": "ANNOTATION_PRIMITIVE",
              "value": 23
            }
          }
@@ -88,7 +87,7 @@
               "fqcn": "com.susamn.Annotation1",
               "data": {
                "key1": {
-                 "type": "INTEGER",
+                 "type": "ANNOTATION_PRIMITIVE",
                  "value": 23
                 }
              }
@@ -97,7 +96,7 @@
              "fqcn": "com.susamn.Annotation2",
               "data": {
                 "key1": {
-                 "type": "STRING",
+                 "type": "ANNOTATION_STRING",
                   "value": "String data"
                 }
              }
@@ -119,7 +118,7 @@
               "fqcn": "com.susamn.Annotation4",
               "data": {
                "key1": {
-                  "type": "INTEGER",
+                  "type": "ANNOTATION_PRIMITIVE",
                   "value": 23
                 }
               }
@@ -130,7 +129,8 @@
           "name": "bar",
           "mode": "private",
          "type": {
-           "of": "LIST_STRING"
+           "of": "LIST_CLASS",
+           "fqcn": "java.lang.String"
          },
          "accessors": true
        },
@@ -138,7 +138,8 @@
          "name": "far",
          "mode": "private",
           "type": {
-            "of":"LIST_INTEGER"
+            "of": "LIST_CLASS",
+            "fqcn": "java.lang.Integer"
           },
          "accessors": true
         },
@@ -216,7 +217,7 @@
               "fqcn": "com.susamn.Annotation11",
              "data": {
                "key1": {
-                  "type": "INTEGER",
+                  "type": "ANNOTATION_PRIMITIVE",
                   "value": 78.10
                }
               }
@@ -225,7 +226,7 @@
               "fqcn": "com.susamn.Annotation10",
               "data": {
                 "key1": {
-                 "type": "INTEGER",
+                 "type": "ANNOTATION_PRIMITIVE",
                  "value": 12.19
                }
               }

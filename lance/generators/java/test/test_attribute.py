@@ -1,6 +1,6 @@
 import unittest
 
-from lance.generators.java import TYPE_STRING, TYPE_INTEGER
+from lance.generators.java import TYPE_INTEGER, TYPE_ANNOTATION_STRING, TYPE_STRING
 from lance.generators.java.attribute import Attribute
 
 
@@ -46,7 +46,7 @@ class TestAttrributes(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation1",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_STRING,
                             "value": 23
                         }
                     }

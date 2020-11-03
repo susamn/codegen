@@ -1,6 +1,7 @@
 import unittest
 
-from lance.generators.java import TYPE_STRING, TYPE_CLASS, TYPE_LIST_CLASS, MODE_PUBLIC, TYPE_INTEGER
+from lance.generators.java import TYPE_STRING, TYPE_CLASS, TYPE_LIST_CLASS, MODE_PUBLIC, TYPE_INTEGER, \
+    TYPE_ANNOTATION_PRIMITIVE
 from lance.generators.java.method import Method, getter, setter
 
 
@@ -77,7 +78,7 @@ class TestMethods(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation11",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_PRIMITIVE,
                             "value": 78.10
                         }
                     }
@@ -101,7 +102,7 @@ class TestMethods(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation11",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_PRIMITIVE,
                             "value": 78.10
                         }
                     }
@@ -110,7 +111,7 @@ class TestMethods(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation10",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_PRIMITIVE,
                             "value": 12.19
                         }
                     }
@@ -142,7 +143,7 @@ class TestMethods(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation11",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_PRIMITIVE,
                             "value": 78.10
                         }
                     }
@@ -174,7 +175,7 @@ class TestMethods(unittest.TestCase):
                     "fqcn": "com.susamn.Annotation11",
                     "data": {
                         "key1": {
-                            "type": TYPE_INTEGER,
+                            "type": TYPE_ANNOTATION_PRIMITIVE,
                             "value": 78.10
                         }
                     }

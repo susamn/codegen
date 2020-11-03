@@ -1,5 +1,6 @@
 import unittest
 
+from lance.generators.java import TYPE_ARRAY_CHAR
 from lance.generators.java.typs import *
 
 
@@ -17,26 +18,28 @@ class TestTypes(unittest.TestCase):
         x, y = process_type(TYPE_STRING)
         print(x, y)
 
-
-    def test_list_type(self):
-        x, y= process_type(TYPE_LIST_STRING)
-        print(x, y)
-
-    def test_list_int(self):
-        x, y= process_type(TYPE_LIST_INTEGER)
-        print(x, y)
-
-    def test_list_float(self):
-        x, y= process_type(TYPE_LIST_FLOAT)
-        print(x, y)
-
-    def test_list_bool(self):
-        x, y= process_type(TYPE_LIST_BOOLEAN)
-        print(x, y)
-
-
     def test_list_custom(self):
         x, y= process_type(TYPE_LIST_CLASS, fqcn="com.susamn.Foo")
+        print(x, y)
+
+    def test_array_int(self):
+        x, y = process_type(TYPE_ARRAY_INT)
+        print(x, y)
+
+    def test_array_float(self):
+        x, y = process_type(TYPE_ARRAY_FLOAT)
+        print(x, y)
+
+    def test_array_boolean(self):
+        x, y = process_type(TYPE_ARRAY_BOOLEAN)
+        print(x, y)
+
+    def test_array_char(self):
+        x, y = process_type(TYPE_ARRAY_CHAR)
+        print(x, y)
+
+    def test_array_custom(self):
+        x, y = process_type(TYPE_ARRAY_CLASS, fqcn="com.susamn.Foo")
         print(x, y)
 
 

@@ -1,6 +1,9 @@
 import unittest
 
-from lance.generators.java import TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING, TYPE_EVALUATED
+from lance.generators.java import TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING, TYPE_ANNOTATION_PRIMITIVE, \
+    TYPE_ANNOTATION_STRING, TYPE_ANNOTATION_EVALUATED, TYPE_ANNOTATION_CLASS, TYPE_ANNOTATION_ANNOTATION, \
+    TYPE_ANNOTATION_LIST_ANNOTATION, TYPE_ANNOTATION_LIST_PRIMITIVE, TYPE_ANNOTATION_LIST_CLASS, \
+    TYPE_ANNOTATION_LIST_STRING
 from lance.generators.java.annotations import Annotation
 
 
@@ -20,7 +23,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": TYPE_INTEGER,
+                    "type": TYPE_ANNOTATION_PRIMITIVE,
                     "value": 23
                 }
             }
@@ -35,7 +38,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": TYPE_FLOAT,
+                    "type": TYPE_ANNOTATION_PRIMITIVE,
                     "value": 23.90
                 }
             }
@@ -50,7 +53,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": TYPE_STRING,
+                    "type": TYPE_ANNOTATION_STRING,
                     "value": "Some data"
                 }
             }
@@ -65,7 +68,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": TYPE_EVALUATED,
+                    "type": TYPE_ANNOTATION_EVALUATED,
                     "value": "RequestConstants.HTTP_CODE",
                     "imports": ["org.spring.RequestConstants"]
                 }
@@ -83,7 +86,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "CLASS",
+                    "type": TYPE_ANNOTATION_CLASS,
                     "value": "com.susamn.SomeClass",
                     "imports":["com.susamn.SomeClass"]
                 }
@@ -99,12 +102,12 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "ANNOTATION",
+                    "type": TYPE_ANNOTATION_ANNOTATION,
                     "value": {
                         "fqcn": "com.susamn.Annotation1",
                         "data": {
                             "key12": {
-                                "type": "INTEGER",
+                                "type": TYPE_ANNOTATION_PRIMITIVE,
                                 "value": 23
                             }
                         }
@@ -123,17 +126,17 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "ANNOTATION",
+                    "type": TYPE_ANNOTATION_ANNOTATION,
                     "value": {
                         "fqcn": "com.susamn.Annotation1",
                         "data": {
                             "key11": {
-                                "type": "ANNOTATION",
+                                "type": TYPE_ANNOTATION_ANNOTATION,
                                 "value": {
                                     "fqcn": "com.susamn.Annotation2",
                                     "data": {
                                         "key111": {
-                                            "type": "INTEGER",
+                                            "type": TYPE_ANNOTATION_PRIMITIVE,
                                             "value": 23
                                         }
                                     }
@@ -155,17 +158,17 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "LIST_ANNOTATION",
+                    "type": TYPE_ANNOTATION_LIST_ANNOTATION,
                     "value": [
                         {
                             "fqcn": "com.susamn.Annotation1",
                             "data": {
                                 "key1": {
-                                    "type": "FLOAT",
+                                    "type": TYPE_ANNOTATION_PRIMITIVE,
                                     "value": 23.20
                                 },
                                 "key2":{
-                                    "type": "CLASS",
+                                    "type": TYPE_ANNOTATION_CLASS,
                                     "value": "com.susamn.Comcast",
                                     "imports":["com.susamn.Comcast"]
                                 }
@@ -175,7 +178,7 @@ class TestAnnotations(unittest.TestCase):
                             "fqcn": "com.susamn.Annotation2",
                             "data": {
                                 "key1": {
-                                    "type": "INTEGER",
+                                    "type": TYPE_ANNOTATION_PRIMITIVE,
                                     "value": 67
                                 }
                             }
@@ -196,7 +199,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "LIST_INTEGER",
+                    "type": TYPE_ANNOTATION_LIST_PRIMITIVE,
                     "value": [12, 23, 34]
                 }
             }
@@ -213,7 +216,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "LIST_CLASS",
+                    "type": TYPE_ANNOTATION_LIST_CLASS,
                     "value": ["com.susamn.Comcast","com.susamn.SomeClass"],
                     "imports": ["com.susamn.Comcast","com.susamn.SomeClass"]
                 }
@@ -230,7 +233,7 @@ class TestAnnotations(unittest.TestCase):
             "fqcn": "com.susamn.ClassLevelAnnotation1",
             "data": {
                 "key1": {
-                    "type": "LIST_STRING",
+                    "type": TYPE_ANNOTATION_LIST_STRING,
                     "value": ["some string 1","some string 2"]
                 }
             }

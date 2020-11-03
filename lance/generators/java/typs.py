@@ -1,10 +1,12 @@
 from lance.generators.java import TYPE_STRING, TYPE_VOID, TYPE_INTEGER, TYPE_FLOAT, TYPE_BOOLEAN, TYPE_CLASS, \
-    TYPE_LIST_STRING, TYPE_LIST_INTEGER, TYPE_LIST_FLOAT, TYPE_LIST_BOOLEAN, TYPE_LIST_CLASS, GENERIC_TYPE_PLACEHOLDER
+    TYPE_LIST_CLASS, GENERIC_TYPE_PLACEHOLDER, TYPE_ARRAY_CLASS, TYPE_ARRAY_INT, TYPE_ARRAY_FLOAT, TYPE_ARRAY_BOOLEAN, \
+    TYPE_ARRAY_CHAR
+
 from lance.generators.java.annotations import parse_annotations
 from lance.generators.java.helper import class_name_from_package
 
 
-def process_type(typ, fqcn=None, annotations=None, generic_types=None):
+def process_type(typ, fqcn=None, annotations=None, generic_types=None, TYPE_LIST_CHAR=None):
     import_list = []
     final_type = None
 
@@ -31,25 +33,22 @@ def process_type(typ, fqcn=None, annotations=None, generic_types=None):
         if not final_type:
             final_type = class_name_from_package(fqcn)
             import_list.append(fqcn)
-    elif typ == TYPE_LIST_STRING:
-        final_type = "List<String>"
-        import_list.append("java.util.List")
-        import_list.append("java.lang.String")
-    elif typ == TYPE_LIST_INTEGER:
-        final_type = "List<Integer>"
-        import_list.append("java.util.List")
-        import_list.append("java.lang.Integer")
-    elif typ == TYPE_LIST_FLOAT:
-        final_type = "List<Float>"
-        import_list.append("java.util.List")
-        import_list.append("java.lang.Float")
-    elif typ == TYPE_LIST_BOOLEAN:
-        final_type = "List<Boolean>"
-        import_list.append("java.util.List")
-        import_list.append("java.lang.Boolean")
+    elif typ == TYPE_ARRAY_INT:
+        final_type = "int[]"
+    elif typ == TYPE_ARRAY_FLOAT:
+        final_type = "float[]"
+    elif typ == TYPE_ARRAY_BOOLEAN:
+        final_type = "boolean[]"
+    elif typ == TYPE_ARRAY_CHAR:
+        final_type = "char[]"
+    elif typ == TYPE_ARRAY_CLASS:
+        if not fqcn:
+            raise ValueError("For array type, the fqcn of the class must be provided")
+        final_type = f"{class_name_from_package(fqcn)}[]"
+        import_list.append(fqcn)
     elif typ == TYPE_LIST_CLASS:
         if not fqcn:
-            raise ValueError("For custom type, the fqcn of the class must be provided")
+            raise ValueError("For list type, the fqcn of the class must be provided")
         final_type = f"List<{class_name_from_package(fqcn)}>"
         import_list.append("java.util.List")
         import_list.append(fqcn)

@@ -1,6 +1,7 @@
-from lance.generators.java import TYPE_LIST_ANNOTATION, TYPE_LIST_BOOLEAN, TYPE_LIST_FLOAT, TYPE_LIST_INTEGER, \
-    TYPE_LIST_CLASS, TYPE_LIST_EVALUATED, TYPE_LIST_STRING, TYPE_ANNOTATION, TYPE_BOOLEAN, TYPE_FLOAT, TYPE_INTEGER, \
-    TYPE_CLASS, TYPE_EVALUATED, TYPE_STRING
+from lance.generators.java import TYPE_ANNOTATION, TYPE_ANNOTATION_PRIMITIVE, TYPE_ANNOTATION_CLASS, \
+    TYPE_ANNOTATION_STRING, TYPE_ANNOTATION_EVALUATED, TYPE_ANNOTATION_ANNOTATION, TYPE_ANNOTATION_LIST_PRIMITIVE, \
+    TYPE_ANNOTATION_LIST_CLASS, TYPE_ANNOTATION_LIST_STRING, TYPE_ANNOTATION_LIST_EVALUATED, \
+    TYPE_ANNOTATION_LIST_ANNOTATION
 from lance.generators.java.helper import Generator, padding, class_name_from_package
 
 
@@ -41,6 +42,8 @@ class Annotation(Generator):
             value_data = v.get("value")
             imports = v.get("imports")
             if value_type:
+                if value_type not in JAVA_ANNOTATION_MAPPER:
+                    raise ValueError(f"The value type {value_type} is not mapped for annotation")
                 parsed_data, nested_imports = JAVA_ANNOTATION_MAPPER[value_type](value_data)
                 result_data[k] = parsed_data
                 # Handle imports
@@ -54,20 +57,17 @@ class Annotation(Generator):
 
 
 JAVA_ANNOTATION_MAPPER = {
-    TYPE_STRING: lambda x: (f'"{x}"', None),
-    TYPE_EVALUATED: lambda x: (x, None),
-    TYPE_CLASS: lambda x: (f'{class_name_from_package(x)}.class', None),
-    TYPE_INTEGER: lambda x: (x, None),
-    TYPE_FLOAT: lambda x: (x, None),
-    TYPE_BOOLEAN: lambda x: (x, None),
     TYPE_ANNOTATION: lambda x: create_annotation_with_imports(x),
-    TYPE_LIST_STRING: lambda x: (f'{{{", ".join([wrap_with_quotes(a) for a in x])}}}', None),
-    TYPE_LIST_EVALUATED: lambda x: (f'{{{", ".join([a for a in x])}}}', None),
-    TYPE_LIST_CLASS: lambda x: (f'{{{", ".join([f"{class_name_from_package(a)}.class" for a in x])}}}', None),
-    TYPE_LIST_INTEGER: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
-    TYPE_LIST_FLOAT: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
-    TYPE_LIST_BOOLEAN: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
-    TYPE_LIST_ANNOTATION: lambda x: process_list_annotations(x)
+    TYPE_ANNOTATION_PRIMITIVE: lambda x: (x, None),
+    TYPE_ANNOTATION_CLASS: lambda x: (f'{class_name_from_package(x)}.class', None),
+    TYPE_ANNOTATION_STRING: lambda x: (f'"{x}"', None),
+    TYPE_ANNOTATION_EVALUATED: lambda x: (x, None),
+    TYPE_ANNOTATION_ANNOTATION: lambda x: create_annotation_with_imports(x),
+    TYPE_ANNOTATION_LIST_PRIMITIVE: lambda x: (f'{{{", ".join([str(a) for a in x])}}}', None),
+    TYPE_ANNOTATION_LIST_CLASS: lambda x: (f'{{{", ".join([f"{class_name_from_package(a)}.class" for a in x])}}}', None),
+    TYPE_ANNOTATION_LIST_STRING: lambda x: (f'{{{", ".join([wrap_with_quotes(a) for a in x])}}}', None),
+    TYPE_ANNOTATION_LIST_EVALUATED: lambda x: (f'{{{", ".join([a for a in x])}}}', None),
+    TYPE_ANNOTATION_LIST_ANNOTATION: lambda x: process_list_annotations(x)
 }
 
 
