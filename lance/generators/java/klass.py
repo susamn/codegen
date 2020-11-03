@@ -1,4 +1,4 @@
-from lance.generators.java import Generator, class_name_from_package, package_name_from_package
+from lance.generators.java.helper import Generator, package_name_from_package, class_name_from_package
 from lance.generators.java.annotations import parse_annotations
 from lance.generators.java.attribute import Attribute
 from lance.generators.java.constructor import Constructor
@@ -8,10 +8,10 @@ from lance.generators.java.typs import handle_generic_types
 
 class Klass(Generator):
     def __init__(self, document, folder=None):
-        fqcn = document.get("fqcn")
-        if fqcn:
-            self.class_name = class_name_from_package(fqcn)
-            self.package = package_name_from_package(fqcn)
+        self.fqcn = document.get("fqcn")
+        if self.fqcn:
+            self.class_name = class_name_from_package(self.fqcn)
+            self.package = package_name_from_package(self.fqcn)
         else:
             raise ValueError("A class must have a fqcn")
         self.imports = set()
@@ -65,8 +65,11 @@ class Klass(Generator):
         attributes = document.get("attributes")
         if attributes:
             for a_doc in attributes:
-                attribute = Attribute(a_doc)
-                self.add_attribute(attribute)
+                if a_doc:
+                    attribute = Attribute(a_doc)
+                    self.add_attribute(attribute)
+                else:
+                    print(f"Ignoring attribute in class {self.class_name}")
 
         # Constructor
         constructors_info = document.get("constructors")
@@ -135,10 +138,5 @@ class Klass(Generator):
         generated += "\n"
         generated += f"}}"
 
-        if self.generate_folder:
-            with open("/".join([self.generate_folder, f'{self.class_name}.java']), "w") as fh:
-                fh.write(generated)
-                fh.flush()
-            print(f'Written java class {self.generate_folder}/{self.class_name}.java')
-        else:
-            print(generated)
+        return self.fqcn, generated
+

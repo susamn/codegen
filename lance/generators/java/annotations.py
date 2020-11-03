@@ -1,4 +1,7 @@
-from lance.generators.java import *
+from lance.generators.java import TYPE_LIST_ANNOTATION, TYPE_LIST_BOOLEAN, TYPE_LIST_FLOAT, TYPE_LIST_INTEGER, \
+    TYPE_LIST_CLASS, TYPE_LIST_EVALUATED, TYPE_LIST_STRING, TYPE_ANNOTATION, TYPE_BOOLEAN, TYPE_FLOAT, TYPE_INTEGER, \
+    TYPE_CLASS, TYPE_EVALUATED, TYPE_STRING
+from lance.generators.java.helper import Generator, padding, class_name_from_package
 
 
 class Annotation(Generator):

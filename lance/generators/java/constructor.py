@@ -1,5 +1,5 @@
-from lance.generators.java import Generator, padding, \
-    CONSTRUCTOR_ALL, CONSTRUCTOR_SELECTED, MODE_PRIVATE
+from lance.generators.java import CONSTRUCTOR_ALL, CONSTRUCTOR_SELECTED, MODE_PRIVATE
+from lance.generators.java.helper import Generator, padding
 
 
 class Constructor(Generator):

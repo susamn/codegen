@@ -32,24 +32,34 @@ CONSTRUCTOR_ALL = "ALL"
 CONSTRUCTOR_EMPTY = "EMPTY"
 CONSTRUCTOR_SELECTED = "SELECTED"
 
-class Generator:
-    def generate(self, indentation=0):
-        pass
+__all__=[
+    MODE_PRIVATE,
+    MODE_PUBLIC,
+    MODE_PROTECTED,
+    GENERIC_TYPE_PLACEHOLDER,
+    TYPE_CLASS,
+    TYPE_ENUM,
+    TYPE_INTERFACE,
+    TYPE_INTEGER,
+    TYPE_FLOAT,
+    TYPE_BOOLEAN,
+    TYPE_STRING,
+    TYPE_EVALUATED,
+    TYPE_ANNOTATION,
+    TYPE_LIST,
+    TYPE_LIST_INTEGER,
+    TYPE_LIST_FLOAT,
+    TYPE_LIST_BOOLEAN,
+    TYPE_LIST_STRING,
+    TYPE_LIST_CLASS,
+    TYPE_LIST_EVALUATED,
+    TYPE_LIST_ANNOTATION,
+    TYPE_VOID,
+    ANNOTATION_LEVEL_ATTRIBUTE,
+    ANNOTATION_LEVEL_GETTER,
+    ANNOTATION_LEVEL_METHOD,
+    CONSTRUCTOR_ALL,
+    CONSTRUCTOR_EMPTY,
+    CONSTRUCTOR_SELECTED
 
-
-def to_camel_case(s):
-    return s[0].upper() + s[1:] if s else s
-
-
-def padding(indentation):
-    return f'{"":>{indentation}}'
-
-
-def package_name_from_package(clazz):
-    splits = clazz.split(".")
-    return ".".join(splits[:-1])
-
-
-def class_name_from_package(clazz):
-    splits = clazz.split(".")
-    return splits[-1]
+]

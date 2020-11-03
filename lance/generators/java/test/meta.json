@@ -1,5 +1,5 @@
 {
-  "generate_path": "",
+  "generate_path": "/Users/ssaman002c/data/argo",
   "classes":[
     {
       "fqcn": "com.susamn.MetaEnum",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "fqcn": "com.susamn.MetaInterface",
+      "fqcn": "com.susamn.interface.MetaInterface",
       "type": "INTERFACE",
       "generic_types": ["java.lang.Integer"],
       "extends": [
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "fqcn": "com.susamn.Meta",
+      "fqcn": "com.susamn.model.api.Meta",
       "type": "CLASS",
       "extends": {
         "fqcn": "com.susamn.Parent",

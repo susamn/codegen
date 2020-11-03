@@ -1,7 +1,8 @@
-from lance.generators.java import Generator, padding, ANNOTATION_LEVEL_ATTRIBUTE, MODE_PUBLIC
-from lance.generators.java.annotations import  parse_annotations
+from lance.generators.java import ANNOTATION_LEVEL_ATTRIBUTE, MODE_PUBLIC, MODE_PRIVATE
+from lance.generators.java.helper import Generator, padding
+from lance.generators.java.annotations import parse_annotations
 from lance.generators.java.method import getter, setter
-from lance.generators.java.typs import MODE_PRIVATE, obtain_type
+from lance.generators.java.typs import obtain_type
 
 
 class Attribute(Generator):

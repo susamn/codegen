@@ -1,7 +1,7 @@
 # lance
+lance is a library to generate code from code.
 
-
-# Usage
+## Usage
 Let's see how we can generate code by using lance
 
 ## Java

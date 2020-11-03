@@ -1,9 +1,10 @@
 import json
 
 from lance.generators.java.enum import Enum
+from lance.generators.java.helper import Writer
 from lance.generators.java.interface import Interface
 from lance.generators.java.klass import Klass
-from lance.generators.java.typs import TYPE_CLASS, TYPE_ENUM, TYPE_INTERFACE
+from lance.generators.java import TYPE_CLASS, TYPE_ENUM, TYPE_INTERFACE
 
 
 def engage(file=None, data=None):
@@ -19,6 +20,7 @@ def engage(file=None, data=None):
         payload = data
     if payload:
         folder = payload.get("generate_path")
+        writer = Writer(folder)
         classes = payload.get("classes")
         if classes and len(classes) > 0:
             for mapping in classes:
@@ -34,7 +36,9 @@ def engage(file=None, data=None):
                     generation = Interface(mapping, folder)
 
                 if generation:
-                    generation.generate()
+                    writer.add_item(*generation.generate())
+
+            writer.write_all()
 
     else:
         raise ValueError("Please check your provided data")

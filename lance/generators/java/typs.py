@@ -1,5 +1,7 @@
-from lance.generators.java import *
+from lance.generators.java import TYPE_STRING, TYPE_VOID, TYPE_INTEGER, TYPE_FLOAT, TYPE_BOOLEAN, TYPE_CLASS, \
+    TYPE_LIST_STRING, TYPE_LIST_INTEGER, TYPE_LIST_FLOAT, TYPE_LIST_BOOLEAN, TYPE_LIST_CLASS, GENERIC_TYPE_PLACEHOLDER
 from lance.generators.java.annotations import parse_annotations
+from lance.generators.java.helper import class_name_from_package
 
 
 def process_type(typ, fqcn=None, annotations=None, generic_types=None):

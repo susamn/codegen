@@ -1,16 +1,17 @@
-from lance.generators.java import Generator, padding, class_name_from_package, package_name_from_package, TYPE_CLASS
+from lance.generators.java import TYPE_CLASS, TYPE_STRING, MODE_PUBLIC
+from lance.generators.java.helper import Generator, padding, package_name_from_package, class_name_from_package
 from lance.generators.java.annotations import parse_annotations
 from lance.generators.java.method import Method
-from lance.generators.java.typs import  MODE_PUBLIC, TYPE_STRING, process_type
+from lance.generators.java.typs import process_type
 
 
 class Enum(Generator):
     # TODO Need to support initialization
     def __init__(self, document, folder=None):
-        fqcn = document.get("fqcn")
-        if fqcn:
-            self.class_name = class_name_from_package(fqcn)
-            self.package = package_name_from_package(fqcn)
+        self.fqcn = document.get("fqcn")
+        if self.fqcn:
+            self.class_name = class_name_from_package(self.fqcn)
+            self.package = package_name_from_package(self.fqcn)
         else:
             raise ValueError("A class must have a fqcn")
         self.imports = set()
@@ -96,10 +97,5 @@ class Enum(Generator):
         generated += "\n"
         generated += f"}}"
 
-        if self.generate_folder:
-            with open("/".join([self.generate_folder, f'{self.class_name}.java']), "w") as fh:
-                fh.write(generated)
-                fh.flush()
-            print(f'Written java enum {self.generate_folder}/{self.class_name}.java')
-        else:
-            print(generated)
+        return self.fqcn, generated
+

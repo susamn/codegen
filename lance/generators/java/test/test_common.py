@@ -1,6 +1,6 @@
 import unittest
 
-from lance.generators.java import class_name_from_package
+from lance.generators.java.helper import class_name_from_package
 from lance.generators.java.typs import process_type, TYPE_STRING, TYPE_LIST_STRING
 
 

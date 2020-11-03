@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
     setuptools.setup(
         name="lance",
-        version="0.1.1",
+        version="0.1.2",
         author="Supratim Samanta",
         author_email="tech.supratim.samanta@gmail.com",
         description="A helper package to generate code from declarative json",
