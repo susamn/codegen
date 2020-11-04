@@ -10,7 +10,7 @@ class Method(Generator):
         self.named_inputs = {}
         self.body = None
         self.isAbstract = False
-        self.isStatic = False
+        self.isStatic = document.get("is_static") or False
         self.imports = []
 
         self.name = document.get("name")
