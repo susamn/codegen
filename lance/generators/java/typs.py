@@ -1,6 +1,6 @@
 from lance.generators.java import TYPE_STRING, TYPE_VOID, TYPE_INTEGER, TYPE_FLOAT, TYPE_BOOLEAN, TYPE_CLASS, \
     TYPE_LIST_CLASS, GENERIC_TYPE_PLACEHOLDER, TYPE_ARRAY_CLASS, TYPE_ARRAY_INT, TYPE_ARRAY_FLOAT, TYPE_ARRAY_BOOLEAN, \
-    TYPE_ARRAY_CHAR
+    TYPE_ARRAY_CHAR, TYPE_LONG, TYPE_ARRAY_LONG
 
 from lance.generators.java.annotations import parse_annotations
 from lance.generators.java.helper import class_name_from_package
@@ -19,6 +19,8 @@ def process_type(typ, fqcn=None, annotations=None, generic_types=None, TYPE_LIST
         final_type = "int"
     elif typ == TYPE_FLOAT:
         final_type = "float"
+    elif typ == TYPE_LONG:
+        final_type = "long"
     elif typ == TYPE_BOOLEAN:
         final_type = "boolean"
     elif typ == TYPE_CLASS:
@@ -37,6 +39,8 @@ def process_type(typ, fqcn=None, annotations=None, generic_types=None, TYPE_LIST
         final_type = "int[]"
     elif typ == TYPE_ARRAY_FLOAT:
         final_type = "float[]"
+    elif typ == TYPE_ARRAY_LONG:
+        final_type = "long[]"
     elif typ == TYPE_ARRAY_BOOLEAN:
         final_type = "boolean[]"
     elif typ == TYPE_ARRAY_CHAR:

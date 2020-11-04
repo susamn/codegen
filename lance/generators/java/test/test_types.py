@@ -30,6 +30,10 @@ class TestTypes(unittest.TestCase):
         x, y = process_type(TYPE_ARRAY_FLOAT)
         print(x, y)
 
+    def test_array_long(self):
+        x, y = process_type(TYPE_ARRAY_LONG)
+        print(x, y)
+
     def test_array_boolean(self):
         x, y = process_type(TYPE_ARRAY_BOOLEAN)
         print(x, y)
